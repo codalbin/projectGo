@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"GOProject/helper"
 )
 
 var conferenceName = "Go Conference" // Define a variable
@@ -23,7 +24,7 @@ func main() {
 	// for remainingTickets > 0 && len(bookings)<50 {
 	for {
 		firstName, lastName, email, userTickets := getUserInput()
-		isValidName, isValidEmail, isValidUserTickets := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidUserTickets := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		// if userTickets > remainingTickets {
 		// 	fmt.Printf("We only have only %v remaining, you can't book tickets\n", remainingTickets)
@@ -79,13 +80,6 @@ func getFirstNames() []string {
 		firstNames = append(firstNames, names[0])
 	}
 	return firstNames
-}
-
-func validateUserInput(firstName string, lastName string, email string, userTickets int) (bool, bool, bool) {
-	var isValidName = len(firstName) >= 2 && len(lastName) >= 2
-	var isValidEmail = strings.Contains(email, "@")
-	isValidUserTickets := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidUserTickets
 }
 
 func getUserInput() (string, string, string, int) {
