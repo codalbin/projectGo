@@ -3,6 +3,7 @@ package main
 import (
 	"GOProject/helper"
 	"fmt"
+	"time"
 	// "strconv"
 	// "strings"
 )
@@ -45,6 +46,8 @@ func main() {
 		if isValidName && isValidEmail && isValidUserTickets {
 
 			bookTicket(userTickets, firstName, lastName, email)
+			go sendTickets(userTickets, firstName, lastName, email) // "go" is used to eecute the code in another thread to optimize the app
+
 			// Get all first names
 			firstNames := getFirstNames()
 			fmt.Printf("All bookings : %v \n", firstNames)
@@ -138,4 +141,12 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 
 	fmt.Printf("Your first name : %v, your lastname : %v, your email : %v\n", firstName, lastName, email)
 	fmt.Printf("It remains only %v tickets for %v\n", remainingTickets, conferenceName)
+}
+
+func sendTickets(userTickets int, firstName string, lastName string, email string) {
+	time.Sleep(10 * time.Second) // Stop execution for 10 secondes
+	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
+	fmt.Println("######")
+	fmt.Printf("Sending ticket:\n %v \nto email adress %v\n", ticket, email)
+	fmt.Println("######")
 }
