@@ -1,1 +1,1 @@
-# projectGo
+# Project Go
