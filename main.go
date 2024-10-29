@@ -3,7 +3,7 @@ package main
 import (
 	"GOProject/helper"
 	"fmt"
-	"strconv"
+	// "strconv"
 	// "strings"
 )
 
@@ -13,7 +13,15 @@ const conferenceTickets = 50
 var remainingTickets = 50
 
 // var bookings [50] string // Arrays of 50 elements
-var bookings = make([]map[string]string, 0) // Create list of maps, with initial size 0
+// var bookings = make([]map[string]string, 0) // Create list of maps, with initial size 0
+var bookings = make([]UserData, 0) // Create list of maps, with initial size 0
+
+type UserData struct {
+	firstName string 
+	lastName string 
+	email string
+	numberOfTickets int
+}
 
 func main() {
 
@@ -79,7 +87,8 @@ func getFirstNames() []string {
 	for _, booking := range bookings { // The _ corresponds to the index
 		// var names = strings.Fields(booking)
 		// firstNames = append(firstNames, names[0])
-		firstNames = append(firstNames, booking["firstName"])
+		// firstNames = append(firstNames, booking["firstName"]) // If we use map
+		firstNames = append(firstNames, booking.firstName)
 	}
 	return firstNames
 }
@@ -111,11 +120,18 @@ func bookTicket(userTickets int, firstName string, lastName string, email string
 	// bookings[0] = firstName + " " + lastName
 
 	// Create a map for a user
-	var userData = make(map[string]string) // We cannot mix types in the map => key must be string and value must be string
-	userData["firstName"] = firstName
-	userData["lastName"] = lastName
-	userData["email"] = email
-	userData["numberOfTickets"] = strconv.FormatInt(int64(userTickets), 10) // 10 is for base 10
+	// var userData = make(map[string]string) // We cannot mix types in the map => key must be string and value must be string
+	// userData["firstName"] = firstName
+	// userData["lastName"] = lastName
+	// userData["email"] = email
+	// userData["numberOfTickets"] = strconv.FormatInt(int64(userTickets), 10) // 10 is for base 10
+
+	var userData = UserData {
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		numberOfTickets: userTickets,
+	}
 
 	bookings = append(bookings, userData)
 	fmt.Printf("List of bookings is %v\n", bookings)
