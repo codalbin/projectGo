@@ -3,6 +3,7 @@ package main
 import (
 	"GOProject/helper"
 	"fmt"
+	"sync"
 	"time"
 	// "strconv"
 	// "strings"
@@ -24,6 +25,8 @@ type UserData struct {
 	numberOfTickets int
 }
 
+var wg = sync.WaitGroup{}
+
 func main() {
 
 	greetUsers()
@@ -32,7 +35,7 @@ func main() {
 
 	// Create a loop to always ask again
 	// for remainingTickets > 0 && len(bookings)<50 {
-	for {
+	// for {
 		firstName, lastName, email, userTickets := getUserInput()
 		isValidName, isValidEmail, isValidUserTickets := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
@@ -46,6 +49,8 @@ func main() {
 		if isValidName && isValidEmail && isValidUserTickets {
 
 			bookTicket(userTickets, firstName, lastName, email)
+
+			wg.Add(1)
 			go sendTickets(userTickets, firstName, lastName, email) // "go" is used to eecute the code in another thread to optimize the app
 
 			// Get all first names
@@ -56,12 +61,13 @@ func main() {
 			if remainingTickets <= 0 {
 				// end program
 				fmt.Println("Conference is booked out")
-				break
+				// break
 			}
 		} else {
 			fmt.Println("Invalid data")
 		}
-	}
+	// }
+	wg.Wait() // Wait for the end of all threads before ending the program
 
 	// city := "London"
 
@@ -149,4 +155,5 @@ func sendTickets(userTickets int, firstName string, lastName string, email strin
 	fmt.Println("######")
 	fmt.Printf("Sending ticket:\n %v \nto email adress %v\n", ticket, email)
 	fmt.Println("######")
+	wg.Done()
 }
