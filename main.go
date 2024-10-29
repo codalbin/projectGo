@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"GOProject/helper"
+	"fmt"
+	"strconv"
+	// "strings"
 )
 
 var conferenceName = "Go Conference" // Define a variable
@@ -12,7 +13,7 @@ const conferenceTickets = 50
 var remainingTickets = 50
 
 // var bookings [50] string // Arrays of 50 elements
-var bookings = []string{}
+var bookings = make([]map[string]string, 0) // Create list of maps, with initial size 0
 
 func main() {
 
@@ -76,8 +77,9 @@ func greetUsers() {
 func getFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookings { // The _ corresponds to the index
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		// var names = strings.Fields(booking)
+		// firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 	return firstNames
 }
@@ -107,7 +109,16 @@ func getUserInput() (string, string, string, int) {
 func bookTicket(userTickets int, firstName string, lastName string, email string) {
 	remainingTickets = remainingTickets - userTickets
 	// bookings[0] = firstName + " " + lastName
-	bookings = append(bookings, firstName+" "+lastName)
+
+	// Create a map for a user
+	var userData = make(map[string]string) // We cannot mix types in the map => key must be string and value must be string
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatInt(int64(userTickets), 10) // 10 is for base 10
+
+	bookings = append(bookings, userData)
+	fmt.Printf("List of bookings is %v\n", bookings)
 
 	fmt.Printf("Your first name : %v, your lastname : %v, your email : %v\n", firstName, lastName, email)
 	fmt.Printf("It remains only %v tickets for %v\n", remainingTickets, conferenceName)
