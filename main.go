@@ -35,7 +35,7 @@ func main() {
 
 	// Create a loop to always ask again
 	// for remainingTickets > 0 && len(bookings)<50 {
-	// for {
+	for {
 		firstName, lastName, email, userTickets := getUserInput()
 		isValidName, isValidEmail, isValidUserTickets := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
@@ -66,8 +66,8 @@ func main() {
 		} else {
 			fmt.Println("Invalid data")
 		}
-	// }
-	wg.Wait() // Wait for the end of all threads before ending the program
+	}
+	// wg.Wait() // Wait for the end of all threads before ending the program
 
 	// city := "London"
 
